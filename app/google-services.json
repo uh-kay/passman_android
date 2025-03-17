@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "603805808627",
+    "project_id": "passman-aeace",
+    "storage_bucket": "passman-aeace.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603805808627:android:c48a97ee8f331f0dbe8486",
+        "android_client_info": {
+          "package_name": "com.example.passman"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApL0YNY8By9Ic8H-GFEU55oK9CY2yNoxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
