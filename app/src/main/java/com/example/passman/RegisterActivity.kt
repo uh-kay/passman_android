@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.util.Base64
 
 class RegisterActivity : AppCompatActivity() {
     lateinit var registerButton: Button
@@ -40,8 +41,8 @@ class RegisterActivity : AppCompatActivity() {
 
             var userModel = UserModel(
                 Username = etUsername.text.toString(),
-                Password = PasswordHelper.hashPassword(etPassword.text.toString(), salt).toString(),
-                SaltString = salt.toString(),
+                Password = Base64.getEncoder().encodeToString(PasswordHelper.hashPassword(etPassword.text.toString(), salt)),
+                SaltString = Base64.getEncoder().encodeToString(salt),
             )
 
             checkUser(etUsername.text.toString()) { isSuccess, isRegistered ->
