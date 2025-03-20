@@ -7,7 +7,7 @@ import javax.crypto.spec.PBEKeySpec
 class PasswordHelper {
     companion object {
         private const val ITERATIONS = 10000
-        private const val KEY_LENGTH = 160 // Key length in bits
+        private const val KEY_LENGTH = 256 // Key length in bits
         private const val SALT_LENGTH = 16 // Salt length in bytes
 
         fun generateSalt(): ByteArray {
