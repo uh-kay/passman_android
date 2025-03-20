@@ -24,9 +24,9 @@ class DashboardActivity: AppCompatActivity() {
 
         val data = ArrayList<DataViewModel>()
 
-        data.add(DataViewModel(com.google.android.material.R.drawable.ic_m3_chip_close, "Lorem ipsum", "Lorem ipsum sir dolor amet..."))
-        data.add(DataViewModel(com.google.android.material.R.drawable.ic_keyboard_black_24dp, "Apa maksud", "Lorem ipsum sir dolor amet..."))
-        data.add(DataViewModel(com.google.android.material.R.drawable.ic_keyboard_black_24dp, "Coba aja", "Lorem ipsum sir dolor amet..."))
+        data.add(DataViewModel(R.drawable.baseline_key_24, "Lorem ipsum", "Lorem ipsum sir dolor amet..."))
+        data.add(DataViewModel(R.drawable.baseline_key_24, "Apa maksud", "Lorem ipsum sir dolor amet..."))
+        data.add(DataViewModel(R.drawable.baseline_key_24, "Coba aja", "Lorem ipsum sir dolor amet..."))
 
         val adapter = CustomAdapter(data)
         recyclerView.adapter = adapter
