@@ -1,6 +1,9 @@
 package com.example.passman
 
 import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -9,8 +12,16 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.core.UserData
 import com.google.firebase.firestore.firestore
+import java.util.Base64
+import android.util.Log
+import android.content.ContentValues.TAG
 
 class AddActivity: AppCompatActivity() {
+    lateinit var addButton: Button
+    lateinit var etTitle: EditText
+    lateinit var etUsername: EditText
+    lateinit var etPassword: EditText
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,24 +32,54 @@ class AddActivity: AppCompatActivity() {
             insets
         }
 
-        val db = FirebaseFirestore.getInstance()
+        addButton = findViewById<Button>(R.id.add_button)
+        etTitle = findViewById<EditText>(R.id.add_title)
+        etUsername = findViewById<EditText>(R.id.add_username)
+        etPassword = findViewById<EditText>(R.id.add_password)
 
-        fun getUserId(documentId: String, callback: (UserModel?, Exception?) -> Unit) {
-            val userRef = db.collection("users").document(documentId)
+        addButton.setOnClickListener {
+            var salt = PasswordHelper.generateSalt()
 
-            userRef.get()
-                .addOnSuccessListener { document ->
-                    if (document != null && document.exists()) {
-                        val userData = document.toObject(UserModel::class.java)
+            var passModel = PasswordModel(
+                Title = etTitle.text.toString(),
+                Username = etUsername.text.toString(),
+                Password = Base64.getEncoder().encodeToString(PasswordHelper.hashPassword(etPassword.text.toString(), salt)),
+                SaltString = Base64.getEncoder().encodeToString(salt),
+                UserId = getUserId(),
+            )
 
-                        userData?.Id = document.id
-
-                        callback(userData, null)
-                    } else {
-                        callback(null, null)
-                    }
-                }
-                .addOnFailureListener {  }
+            this.addPassword(passModel)
         }
+    }
+
+    fun getUserId(): String? {
+        val sharedPreference =getSharedPreferences("app_preference", MODE_PRIVATE)
+        return sharedPreference.getString("user_id", null)
+    }
+
+    fun addPassword(passModel: PasswordModel) {
+        val db = Firebase.firestore
+        db.collection("passwords")
+            .add(passModel)
+            .addOnSuccessListener { documentReference ->
+                val generatedDocumentId = documentReference.id
+
+                documentReference.update("id", generatedDocumentId)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            applicationContext,
+                            "Add password successful",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error updating document with ID: ", e)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document: ", e)
+            }
     }
 }

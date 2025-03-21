@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class CustomAdapter(private val mList: List<DataViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(val data: ArrayList<DataViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_detail, parent, false)
@@ -18,13 +18,11 @@ class CustomAdapter(private val mList: List<DataViewModel>) : RecyclerView.Adapt
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val dataModel = mList[position]
+        val dataModel = data[position]
         holder.setupView(dataModel.title, dataModel.username, dataModel.image)
     }
 
-    override fun getItemCount(): Int {
-        return mList.size
-    }
+    override fun getItemCount() = data.size
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var title : TextView = view.findViewById<TextView>(R.id.title_text)

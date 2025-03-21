@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity() {
                     )
 
                     sharedPreference.edit(commit = true) {
-                        putString("username", document.data["username"].toString())
+                        putString("user_id", document.data["id"].toString())
                     }
 
                     isValid = true

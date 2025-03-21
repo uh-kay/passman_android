@@ -91,13 +91,21 @@ class RegisterActivity : AppCompatActivity() {
         db.collection("users")
             .add(userModel)
             .addOnSuccessListener { documentReference ->
-                Toast.makeText(
-                    applicationContext,
-                    "Registration successful",
-                    Toast.LENGTH_SHORT
-                ).show()
+                val generatedDocumentId = documentReference.id
 
-                finish()
+                documentReference.update("id", generatedDocumentId)
+                    .addOnSuccessListener {
+                        Toast.makeText(
+                            applicationContext,
+                            "Registration successful",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        finish()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(TAG, "Error updating document with ID: ", e)
+                    }
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document: ", e)
