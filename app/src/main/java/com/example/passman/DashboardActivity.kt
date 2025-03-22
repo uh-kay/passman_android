@@ -34,6 +34,11 @@ class DashboardActivity: AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getPass()
+    }
+
     private fun getPass() {
         val data = ArrayList<DataViewModel>()
 

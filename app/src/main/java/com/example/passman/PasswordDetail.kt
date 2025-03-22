@@ -3,13 +3,15 @@ package com.example.passman
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -24,7 +26,7 @@ class PasswordDetail : AppCompatActivity() {
     private lateinit var copyUsernameButton: ImageButton
     private lateinit var copyPasswordButton: ImageButton
     private lateinit var editButton: FloatingActionButton
-    private lateinit var deleteButton: Button
+    private lateinit var deleteButton: FloatingActionButton
 
     private var passId: String? = null
     private var password: String? = null
@@ -53,6 +55,7 @@ class PasswordDetail : AppCompatActivity() {
         copyUsernameButton = findViewById(R.id.copy_username)
         copyPasswordButton = findViewById(R.id.copy_password)
         editButton = findViewById(R.id.edit_pass)
+        deleteButton = findViewById<FloatingActionButton>(R.id.delete_pass)
 
         fetchPasswordDetails(passId!!)
 
@@ -102,11 +105,53 @@ class PasswordDetail : AppCompatActivity() {
             // TODO: Implement edit functionality
             Toast.makeText(this, "Edit functionality not implemented yet", Toast.LENGTH_SHORT).show()
         }
+
+        deleteButton.setOnClickListener {
+            showDeleteConfirmationDialog()
+        }
     }
 
     private fun copyToClipboard(label: String, text: String) {
         val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText(label, text)
         clipboardManager.setPrimaryClip(clipData)
+    }
+
+    private fun showDeleteConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Password")
+            .setMessage("Are you sure you want to delete this password? This action cannot be undone.")
+            .setPositiveButton("Delete") { _, _ ->
+                deletePassword()
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun deletePassword() {
+        val db = Firebase.firestore
+
+        db.collection("passwords")
+            .whereEqualTo("id", passId)
+            .get()
+            .addOnSuccessListener { documents ->
+                if (!documents.isEmpty) {
+                    val document = documents.documents[0]
+                    db.collection("passwords").document(document.id)
+                        .delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(this, "Password deleted successfully", Toast.LENGTH_SHORT).show()
+                            finish()
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w("Firestore", "Error deleting password", e)
+                            Toast.makeText(this, "Error deleting password", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.w("Firestore", "Error finding password to delete", e)
+                Toast.makeText(this, "Error deleting password", Toast.LENGTH_SHORT).show()
+            }
     }
 }
