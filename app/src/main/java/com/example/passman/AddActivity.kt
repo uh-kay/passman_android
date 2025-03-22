@@ -1,6 +1,8 @@
 package com.example.passman
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -9,12 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.core.UserData
 import com.google.firebase.firestore.firestore
-import java.util.Base64
-import android.util.Log
-import android.content.ContentValues.TAG
 
 class AddActivity: AppCompatActivity() {
     lateinit var addButton: Button
@@ -43,8 +40,7 @@ class AddActivity: AppCompatActivity() {
             var passModel = PasswordModel(
                 Title = etTitle.text.toString(),
                 Username = etUsername.text.toString(),
-                Password = Base64.getEncoder().encodeToString(PasswordHelper.hashPassword(etPassword.text.toString(), salt)),
-                SaltString = Base64.getEncoder().encodeToString(salt),
+                Password = etPassword.text.toString(),
                 UserId = getUserId(),
             )
 
@@ -53,7 +49,7 @@ class AddActivity: AppCompatActivity() {
     }
 
     fun getUserId(): String? {
-        val sharedPreference =getSharedPreferences("app_preference", MODE_PRIVATE)
+        val sharedPreference = getSharedPreferences("app_preference", MODE_PRIVATE)
         return sharedPreference.getString("user_id", null)
     }
 

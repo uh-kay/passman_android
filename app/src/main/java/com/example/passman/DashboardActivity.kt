@@ -48,11 +48,13 @@ class DashboardActivity: AppCompatActivity() {
                 for (document in documents) {
                     val title = document.getString("title")
                     val username = document.getString("username")
+                    val id = document.getString("id")
 
                     data.add(DataViewModel(
                         R.drawable.baseline_key_24,
                         title.toString(),
                         username.toString(),
+                        id.toString(),
                     ))
                 }
 
@@ -68,7 +70,11 @@ class DashboardActivity: AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        val adapter = CustomAdapter(data)
+        val adapter = CustomAdapter(data) { clickedItem ->
+            val intent = Intent(this, PasswordDetail::class.java)
+            intent.putExtra("passId", clickedItem.id)
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
     }
 

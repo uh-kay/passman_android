@@ -7,11 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import androidx.core.content.edit
 import java.util.Base64
 
 class LoginActivity : AppCompatActivity() {
@@ -87,6 +87,7 @@ class LoginActivity : AppCompatActivity() {
 
                     sharedPreference.edit(commit = true) {
                         putString("user_id", document.data["id"].toString())
+                        putString("master_pass", document.data["password"].toString())
                     }
 
                     isValid = true
