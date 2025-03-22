@@ -27,10 +27,18 @@ class DashboardActivity: AppCompatActivity() {
         getPass()
 
         val addButton = findViewById<FloatingActionButton>(R.id.add_pass)
+        val lockButton = findViewById<FloatingActionButton>(R.id.lock)
 
         addButton.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java)
+            val intent = Intent(this, AddPassActivity::class.java)
             startActivity(intent)
+        }
+
+        lockButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 
@@ -76,7 +84,7 @@ class DashboardActivity: AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val adapter = CustomAdapter(data) { clickedItem ->
-            val intent = Intent(this, PasswordDetail::class.java)
+            val intent = Intent(this, PassDetailActivity::class.java)
             intent.putExtra("passId", clickedItem.id)
             startActivity(intent)
         }

@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
-class AddActivity: AppCompatActivity() {
+class AddPassActivity: AppCompatActivity() {
     lateinit var addButton: Button
     lateinit var etTitle: EditText
     lateinit var etUsername: EditText
@@ -35,8 +35,6 @@ class AddActivity: AppCompatActivity() {
         etPassword = findViewById<EditText>(R.id.add_password)
 
         addButton.setOnClickListener {
-            var salt = PasswordHelper.generateSalt()
-
             var passModel = PasswordModel(
                 Title = etTitle.text.toString(),
                 Username = etUsername.text.toString(),

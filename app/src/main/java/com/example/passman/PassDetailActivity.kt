@@ -10,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -18,8 +17,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import java.util.Base64
 
-class PasswordDetail : AppCompatActivity() {
+class PassDetailActivity : AppCompatActivity() {
     private lateinit var titleTextView: TextView
     private lateinit var usernameTextView: TextView
     private lateinit var passwordTextView: TextView
@@ -62,6 +62,11 @@ class PasswordDetail : AppCompatActivity() {
         setupButtonListeners()
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchPasswordDetails(passId!!)
+    }
+
     private fun fetchPasswordDetails(passId: String) {
         val db = Firebase.firestore
 
@@ -76,14 +81,14 @@ class PasswordDetail : AppCompatActivity() {
                 }
 
                 val document = documents.documents[0]
-                val title = document.getString("title") ?: "Unknown Title"
-                username = document.getString("username") ?: "Unknown Username"
+                title = document.getString("title")
+                username = document.getString("username")
                 password = document.getString("password")
 
                 // Update UI
                 titleTextView.text = title
                 usernameTextView.text = username
-                passwordTextView.text = password
+                passwordTextView.text = password.toString()
             }
             .addOnFailureListener { e ->
                 Log.w("Firestore", "Error getting password details", e)
@@ -102,8 +107,9 @@ class PasswordDetail : AppCompatActivity() {
         }
 
         editButton.setOnClickListener {
-            // TODO: Implement edit functionality
-            Toast.makeText(this, "Edit functionality not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EditPassActivity::class.java)
+            intent.putExtra("passId", passId)
+            startActivity(intent)
         }
 
         deleteButton.setOnClickListener {

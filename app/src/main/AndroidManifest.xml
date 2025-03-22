@@ -24,8 +24,9 @@
         <activity android:name=".LoginActivity" android:exported="true" />
         <activity android:name=".RegisterActivity" android:exported="false"/>
         <activity android:name=".DashboardActivity" android:exported="true"/>
-        <activity android:name=".AddActivity" android:exported="true"/>
-        <activity android:name=".PasswordDetail" android:exported="true"/>
+        <activity android:name=".AddPassActivity" android:exported="true"/>
+        <activity android:name=".PassDetailActivity" android:exported="true"/>
+        <activity android:name=".EditPassActivity" android:exported="true"/>
     </application>
 
 </manifest>

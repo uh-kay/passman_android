@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/add"
-    tools:context=".AddPassActivity">
+    android:id="@+id/edit"
+    tools:context=".EditPassActivity">
 
     <LinearLayout
-        android:id="@+id/add_panel"
+        android:id="@+id/edit_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -27,7 +27,7 @@
             android:layout_margin="16dp"/>
 
         <EditText
-            android:id="@+id/add_title"
+            android:id="@+id/edit_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title"
@@ -36,7 +36,7 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/add_username"
+            android:id="@+id/edit_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Username"
@@ -45,7 +45,7 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/add_password"
+            android:id="@+id/edit_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -54,10 +54,10 @@
             android:minHeight="48dp" />
 
         <Button
-            android:id="@+id/add_button"
+            android:id="@+id/edit_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="Edit"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"/>
     </LinearLayout>
