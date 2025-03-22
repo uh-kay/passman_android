@@ -32,7 +32,6 @@
             android:layout_height="wrap_content"
             android:hint="Title"
             android:inputType="text"
-            android:text="Title"
             android:layout_margin="16dp"
             android:minHeight="48dp" />
 
@@ -42,7 +41,6 @@
             android:layout_height="wrap_content"
             android:hint="Username"
             android:inputType="text"
-            android:text="Username"
             android:layout_margin="16dp"
             android:minHeight="48dp" />
 

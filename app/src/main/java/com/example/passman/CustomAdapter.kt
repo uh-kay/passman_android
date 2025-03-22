@@ -1,5 +1,6 @@
 package com.example.passman
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
-class CustomAdapter(val data: ArrayList<DataViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter(private val data: List<DataViewModel>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_detail, parent, false)
@@ -35,7 +35,7 @@ class CustomAdapter(val data: ArrayList<DataViewModel>) : RecyclerView.Adapter<C
             image.setImageResource(imageData)
 
             itemView.setOnClickListener {
-                Toast.makeText(it.context, "You selected $titleData", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, PasswordDetail::class.java)
             }
         }
     }
