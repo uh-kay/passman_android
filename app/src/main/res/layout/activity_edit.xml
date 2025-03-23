@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Password"
+            android:text="Edit Password"
             android:textStyle="bold"
             android:textSize="36sp"
             android:layout_margin="16dp"/>
